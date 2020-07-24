@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AppProject</string>
+    <string name="app_name">Course Project</string>
     <string name="login_hint">Логин</string>
     <string name="password_hint">Пароль</string>
     <string name="login_enter">Войти</string>
