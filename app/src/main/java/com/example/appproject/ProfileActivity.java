@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity { // Активити, содержащее информацию о профиле
 
     public static String USER_KEY = "USER_KEY";
 
@@ -18,13 +18,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     private View.OnClickListener mOnPhotoClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view) { // нажатие на фото
             //TODO
         }
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { // инициализация
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_profile);
 

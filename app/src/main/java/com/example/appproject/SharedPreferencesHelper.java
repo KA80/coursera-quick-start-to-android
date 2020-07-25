@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SharedPreferencesHelper {
+public class SharedPreferencesHelper { // для хранения пользователей
 
     public static final String SHARED_PREF_NAME = "SHARED_PREF_NAME";
     public static final String USERS_KEY = "USERS_KEY";
@@ -23,15 +23,15 @@ public class SharedPreferencesHelper {
         mSharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
 
-    public List<User> getUsers() {
+    public List<User> getUsers() { // получить лист всех пользователей
         List<User> users = mGson.fromJson(mSharedPreferences.getString(USERS_KEY, ""), USERS_TYPE);
         return users == null ? new ArrayList<User>() : users;
     }
 
-    public boolean addUser(User user) {
+    public boolean addUser(User user) { // Добавление пользователя
         List<User> users = getUsers();
         for (User u : users) {
-            if (u.getLogin().equalsIgnoreCase(user.getLogin())) {
+            if (u.getLogin().equalsIgnoreCase(user.getLogin())) { // Если такой логин уже зарегистрирован
                 return false;
             }
         }

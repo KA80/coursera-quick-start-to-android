@@ -16,7 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class AuthFragment extends Fragment {
+public class AuthFragment extends Fragment { // Фрагмент авторизации
+    // высвечивается при запуске приложения
 
     private EditText mLogin;
     private EditText mPassword;
@@ -25,13 +26,13 @@ public class AuthFragment extends Fragment {
 
     private View.OnClickListener mOnEnterClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view) { // нажатие на кнопку "Войти"
             if (isEmailValid() && isPasswordValid()) {
                 Intent startProfileIntent = new Intent(getActivity(),
                         ProfileActivity.class);
                 startProfileIntent.putExtra(ProfileActivity.USER_KEY,
                         new User(mLogin.getText().toString(), mPassword.getText().toString()));
-                startActivity(startProfileIntent);
+                startActivity(startProfileIntent); // Смена активити intent'ом
             } else {
                 showMessage(R.string.login_input_error);
             }
@@ -43,15 +44,16 @@ public class AuthFragment extends Fragment {
         public void onClick(View view) {
             getFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, RegistrationFragment.newInstance()).commit();
+            // Смена фрагмента Фрагмент Менеджером
         }
     };
 
-    private boolean isEmailValid() {
+    private boolean isEmailValid() { // метод, проверяющий валидность email
         return !TextUtils.isEmpty(mLogin.getText()) && Patterns
                 .EMAIL_ADDRESS.matcher(mLogin.getText()).matches();
     }
 
-    private boolean isPasswordValid() {
+    private boolean isPasswordValid() {// метод, проверяющий валидность password
         return !TextUtils.isEmpty(mPassword.getText());
     }
 
@@ -61,9 +63,11 @@ public class AuthFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fr_auth, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) { // создание компонентов во фрагменте
+        View v = inflater.inflate(R.layout.fr_auth,
+                container, false); // создание java-объектов
 
         mLogin = v.findViewById(R.id.etLogin);
         mPassword = v.findViewById(R.id.etPassword);
@@ -75,7 +79,7 @@ public class AuthFragment extends Fragment {
         return v;
     }
 
-    public static AuthFragment newInstance() {
+    public static AuthFragment newInstance() { // конструктор
         
         Bundle args = new Bundle();
         

@@ -2,6 +2,7 @@ package com.example.appproject;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
@@ -16,7 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RegistrationFragment extends Fragment {
+public class RegistrationFragment extends Fragment { // Фрагмент регистрации
+    // Показывается при нажатии на кнопку "Регистрация"
 
     private EditText mLogin;
     private EditText mPassword;
@@ -26,10 +28,12 @@ public class RegistrationFragment extends Fragment {
 
     private View.OnClickListener mOnRegistrationClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
+        public void onClick(View view) { // Нажатие на кнопку зарегистрироваться
             if (isInputValid()) {
-                boolean isAdded =  mSharedPreferencesHelper.addUser(new User(mLogin.getText().toString(),
-                        mPassword.getText().toString()));
+                boolean isAdded =  mSharedPreferencesHelper.addUser
+                        (new User(mLogin.getText().toString(), mPassword.getText().toString()));
+                // isAdded хранит в себе true or false,
+                // проверка на то, что этого пользователя не было, если не было - добавляется
                 if (isAdded) {
                     showMessage(R.string.login_register_success);
                 } else {
@@ -46,9 +50,11 @@ public class RegistrationFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fr_registration, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) { // создание компонентов во фрагменте
+        View v = inflater.inflate(R.layout.fr_registration,
+                container, false);// создание java-объектов
         mSharedPreferencesHelper = new SharedPreferencesHelper(getActivity());
 
         mLogin = v.findViewById(R.id.etLogin);
@@ -60,7 +66,7 @@ public class RegistrationFragment extends Fragment {
         return v;
     }
 
-    private boolean isInputValid() {
+    private boolean isInputValid() { // метод, проверяющий на валидность введенных данных
         String email = mLogin.getText().toString();
         if (isEmailValid(email) && isPasswordValid()) {
             return true;
@@ -68,11 +74,11 @@ public class RegistrationFragment extends Fragment {
         return false;
     }
 
-    private boolean isEmailValid(String email) {
+    private boolean isEmailValid(String email) { // проверяет валидность email
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    private boolean isPasswordValid() {
+    private boolean isPasswordValid() { // проверяет валидность пароля
         String password = mPassword.getText().toString();
         String passwordAgain = mPasswordAgain.getText().toString();
 

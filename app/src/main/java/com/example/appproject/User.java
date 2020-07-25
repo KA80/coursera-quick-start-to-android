@@ -2,7 +2,7 @@ package com.example.appproject;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class User implements Serializable { // Класс пользователя
     private String mLogin;
     private String mPassword;
 
