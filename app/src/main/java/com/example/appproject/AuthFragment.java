@@ -41,12 +41,14 @@ public class AuthFragment extends Fragment {
     private View.OnClickListener mOnRegisterClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            //TODO обработка нажатий
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, RegistrationFragment.newInstance()).commit();
         }
     };
 
     private boolean isEmailValid() {
-        return !TextUtils.isEmpty(mLogin.getText()) && Patterns.EMAIL_ADDRESS.matcher(mLogin.getText()).matches();
+        return !TextUtils.isEmpty(mLogin.getText()) && Patterns
+                .EMAIL_ADDRESS.matcher(mLogin.getText()).matches();
     }
 
     private boolean isPasswordValid() {
@@ -59,7 +61,8 @@ public class AuthFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fr_auth, container, false);
 
         mLogin = v.findViewById(R.id.etLogin);

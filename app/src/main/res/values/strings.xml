@@ -1,10 +1,21 @@
 <resources>
     <string name="app_name">Course Project</string>
+
     <string name="login_hint">Логин</string>
     <string name="password_hint">Пароль</string>
+
+    <string name="password_enter">Введите пароль</string>
+    <string name="password_enter_again">Введите пароль ещё раз</string>
+    <string name="register">Зарегистрироваться</string>
+
+    <string name="login_register_error">Login уже занят!</string>
+    <string name="login_register_success">Успешно!</string>
+
     <string name="login_enter">Войти</string>
     <string name="login_register">Регистрация</string>
+
     <string name="login_input_error">Ошибка ввода данных</string>
+
     <string name="email">Email</string>
     <string name="imageDescription">Image</string>
     <string name="password">Password</string>
