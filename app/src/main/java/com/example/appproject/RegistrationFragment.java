@@ -39,6 +39,8 @@ public class RegistrationFragment extends Fragment { // Фрагмент рег�
                 } else {
                     showMessage(R.string.login_register_error);
                 }
+            } else {
+                showMessage(R.string.login_input_error);
             }
         }
     };
