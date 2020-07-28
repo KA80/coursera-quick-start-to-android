@@ -17,13 +17,14 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainer, getFragment()).commit();
+            //для открытия начального фрагмента на активити(в AuthActivity - AuthFragment начальный)
         }
     }
 
     protected abstract Fragment getFragment();
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() { // перезаписываем метод для корректной работы BackStack'а с фрагментами
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() == 1) {
             finish();
