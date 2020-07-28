@@ -19,4 +19,6 @@
     <string name="email">Email</string>
     <string name="imageDescription">Image</string>
     <string name="password">Password</string>
+
+    <string name="login_error">Ошибка логина. Неправильный логин или пароль</string>
 </resources>

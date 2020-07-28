@@ -23,18 +23,31 @@ public class AuthFragment extends Fragment { // Фрагмент авториз�
     private EditText mPassword;
     private Button mEnter;
     private Button mRegister;
+    private SharedPreferencesHelper mSharedPreferencesHelper;
 
     private View.OnClickListener mOnEnterClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) { // нажатие на кнопку "Войти"
-            if (isEmailValid() && isPasswordValid()) {
-                Intent startProfileIntent = new Intent(getActivity(),
-                        ProfileActivity.class);
-                startProfileIntent.putExtra(ProfileActivity.USER_KEY,
-                        new User(mLogin.getText().toString(), mPassword.getText().toString()));
-                startActivity(startProfileIntent); // Смена активити intent'ом
-            } else {
-                showMessage(R.string.login_input_error);
+            boolean isLoginSuccess = false;
+
+            for (User user : mSharedPreferencesHelper.getUsers()) {
+                if (user.getLogin().equalsIgnoreCase(mLogin.getText().toString())
+                && user.getPassword().equals(mPassword.getText().toString())) {
+                    isLoginSuccess = true;
+                    if (isEmailValid() && isPasswordValid()) {
+                        Intent startProfileIntent = new Intent(getActivity(),
+                                ProfileActivity.class);
+                        startProfileIntent.putExtra(ProfileActivity.USER_KEY,
+                                new User(mLogin.getText().toString(), mPassword.getText().toString()));
+                        startActivity(startProfileIntent); // Смена активити intent'ом
+                    } else {
+                        showMessage(R.string.login_input_error);
+                    }
+                    break;
+                }
+            }
+            if (!isLoginSuccess) {
+                showMessage(R.string.login_error);
             }
         }
     };
@@ -43,7 +56,8 @@ public class AuthFragment extends Fragment { // Фрагмент авториз�
         @Override
         public void onClick(View view) {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, RegistrationFragment.newInstance()).commit();
+                    .replace(R.id.fragmentContainer, RegistrationFragment.newInstance())
+                    .addToBackStack(RegistrationFragment.class.getName()).commit();
             // Смена фрагмента Фрагмент Менеджером
         }
     };
@@ -73,6 +87,7 @@ public class AuthFragment extends Fragment { // Фрагмент авториз�
         mPassword = v.findViewById(R.id.etPassword);
         mEnter = v.findViewById(R.id.buttonEnter);
         mRegister = v.findViewById(R.id.buttonRegister);
+        mSharedPreferencesHelper = new SharedPreferencesHelper(getActivity());
 
         mEnter.setOnClickListener(mOnEnterClickListener);
         mRegister.setOnClickListener(mOnRegisterClickListener);

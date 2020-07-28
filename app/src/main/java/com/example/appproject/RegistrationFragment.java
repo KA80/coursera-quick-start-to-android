@@ -36,11 +36,10 @@ public class RegistrationFragment extends Fragment { // Фрагмент рег�
                 // проверка на то, что этого пользователя не было, если не было - добавляется
                 if (isAdded) {
                     showMessage(R.string.login_register_success);
+                    getFragmentManager().popBackStack();
                 } else {
                     showMessage(R.string.login_register_error);
                 }
-            } else {
-                showMessage(R.string.login_input_error);
             }
         }
     };
