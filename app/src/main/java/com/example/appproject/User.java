@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class User implements Serializable { // Класс пользователя
     private String mLogin;
     private String mPassword;
+    private boolean mHasSuccessLogin;
 
     public User(String login, String password) {
         this.mLogin = login;
@@ -25,5 +26,13 @@ public class User implements Serializable { // Класс пользовател
 
     public void setPassword(String mPassword) {
         this.mPassword = mPassword;
+    }
+
+    public boolean hasSuccessLogin() {
+        return mHasSuccessLogin;
+    }
+
+    public void setHasSuccessLogin(boolean hasSuccessLogin) {
+        mHasSuccessLogin = hasSuccessLogin;
     }
 }

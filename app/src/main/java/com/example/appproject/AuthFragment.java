@@ -12,6 +12,8 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,36 +21,33 @@ import android.widget.Toast;
 public class AuthFragment extends Fragment { // Фрагмент авторизации
     // высвечивается при запуске приложения
 
-    private EditText mLogin;
+    private AutoCompleteTextView mLogin;
     private EditText mPassword;
     private Button mEnter;
     private Button mRegister;
     private SharedPreferencesHelper mSharedPreferencesHelper;
 
+    private ArrayAdapter<String> mLoginedUsersAdapter; // Адаптер для AutoCompleteTextView
+
     private View.OnClickListener mOnEnterClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) { // нажатие на кнопку "Войти"
-            boolean isLoginSuccess = false;
 
-            for (User user : mSharedPreferencesHelper.getUsers()) {
-                if (user.getLogin().equalsIgnoreCase(mLogin.getText().toString())
-                && user.getPassword().equals(mPassword.getText().toString())) {
-                    isLoginSuccess = true;
-                    if (isEmailValid() && isPasswordValid()) {
-                        Intent startProfileIntent = new Intent(getActivity(),
-                                ProfileActivity.class);
-                        startProfileIntent.putExtra(ProfileActivity.USER_KEY,
-                                new User(mLogin.getText().toString(), mPassword.getText().toString()));
-                        startActivity(startProfileIntent); // Смена активити intent'ом
-                    } else {
-                        showMessage(R.string.login_input_error);
-                    }
-                    break;
+            if (isEmailValid() && isPasswordValid()) {
+                if (mSharedPreferencesHelper.login(
+                        new User (mLogin.getText().toString(), mPassword.getText().toString()))) {
+                    Intent startProfileIntent = new Intent(getActivity(), ProfileActivity.class);
+                    startProfileIntent.putExtra(ProfileActivity.USER_KEY,
+                            new User(mLogin.getText().toString(), mPassword.getText().toString()));
+                    startActivity(startProfileIntent); // Смена активити intent'ом
+                    getActivity().finish();
+                } else {
+                    showMessage(R.string.login_error);
                 }
+            } else {
+                showMessage(R.string.login_input_error);
             }
-            if (!isLoginSuccess) {
-                showMessage(R.string.login_error);
-            }
+
         }
     };
 
@@ -59,6 +58,15 @@ public class AuthFragment extends Fragment { // Фрагмент авториз�
                     .replace(R.id.fragmentContainer, RegistrationFragment.newInstance())
                     .addToBackStack(RegistrationFragment.class.getName()).commit();
             // Смена фрагмента Фрагмент Менеджером
+        }
+    };
+
+    private View.OnFocusChangeListener mOnLoginFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean hasFocus) {
+            if (hasFocus) {
+                mLogin.showDropDown();
+            }
         }
     };
 
@@ -91,6 +99,14 @@ public class AuthFragment extends Fragment { // Фрагмент авториз�
 
         mEnter.setOnClickListener(mOnEnterClickListener);
         mRegister.setOnClickListener(mOnRegisterClickListener);
+
+        mLoginedUsersAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                mSharedPreferencesHelper.getSuccessLogins());
+
+        mLogin.setAdapter(mLoginedUsersAdapter);
+        mLogin.setOnFocusChangeListener(mOnLoginFocusChangeListener);
+
         return v;
     }
 

@@ -39,4 +39,27 @@ public class SharedPreferencesHelper { // для хранения пользов
         mSharedPreferences.edit().putString(USERS_KEY, mGson.toJson(users, USERS_TYPE)).apply();
         return true;
     }
+
+    public boolean login(User user) {
+        List<User> users = getUsers();
+        for (User u: users) {
+            if (user.getLogin().equalsIgnoreCase(u.getLogin()) && user.getPassword().equals(u.getPassword())) {
+                u.setHasSuccessLogin(true);
+                mSharedPreferences.edit().putString(USERS_KEY, mGson.toJson(users, USERS_TYPE)).apply();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<String> getSuccessLogins() {
+        List<String> successLogins = new ArrayList<>();
+        List<User> allUsers = getUsers();
+        for (User u : allUsers) {
+            if (u.hasSuccessLogin()) {
+                successLogins.add(u.getLogin());
+            }
+        }
+        return successLogins;
+    }
 }
