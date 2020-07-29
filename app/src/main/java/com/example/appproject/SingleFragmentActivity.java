@@ -16,12 +16,16 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, getFragment()).commit();
+                    .replace(R.id.fragmentContainer, getFragment())
+                    .addToBackStack(getFragName())
+                    .commit();
             //для открытия начального фрагмента на активити(в AuthActivity - AuthFragment начальный)
         }
     }
 
     protected abstract Fragment getFragment();
+
+    protected abstract String getFragName();
 
     @Override
     public void onBackPressed() { // перезаписываем метод для корректной работы BackStack'а с фрагментами

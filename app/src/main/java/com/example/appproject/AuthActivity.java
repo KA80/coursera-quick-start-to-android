@@ -9,4 +9,9 @@ public class AuthActivity extends SingleFragmentActivity { // основное �
     protected Fragment getFragment() { // Создание фрагмента
         return AuthFragment.newInstance();
     }
+
+    @Override
+    protected String getFragName() {
+        return AuthActivity.class.getName();
+    }
 }

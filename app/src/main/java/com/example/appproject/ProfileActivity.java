@@ -77,6 +77,7 @@ public class ProfileActivity extends AppCompatActivity { // Активити, с
                 && data != null) {
             Uri photoUri = data.getData();
             mPhoto.setImageURI(photoUri);
+            mPhoto.setBackgroundResource(0);
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }

@@ -9,6 +9,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivPhoto"
         android:layout_width="100dp"
+        android:background="@drawable/empty_img_user"
         android:layout_height="100dp"
         android:layout_margin="16dp"
         android:contentDescription="@string/imageDescription" />
