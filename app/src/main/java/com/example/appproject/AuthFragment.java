@@ -34,11 +34,11 @@ public class AuthFragment extends Fragment { // Фрагмент авториз�
         public void onClick(View view) { // нажатие на кнопку "Войти"
 
             if (isEmailValid() && isPasswordValid()) {
-                if (mSharedPreferencesHelper.login(
-                        new User (mLogin.getText().toString(), mPassword.getText().toString()))) {
+                User user = mSharedPreferencesHelper.login(
+                        mLogin.getText().toString(), mPassword.getText().toString());
+                if (user != null) {
                     Intent startProfileIntent = new Intent(getActivity(), ProfileActivity.class);
-                    startProfileIntent.putExtra(ProfileActivity.USER_KEY,
-                            new User(mLogin.getText().toString(), mPassword.getText().toString()));
+                    startProfileIntent.putExtra(ProfileActivity.USER_KEY, user);
                     startActivity(startProfileIntent); // Смена активити intent'ом
                     getActivity().finish();
                 } else {
